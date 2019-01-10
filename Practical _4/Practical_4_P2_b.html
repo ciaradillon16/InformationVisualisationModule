@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Practical 4</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		
+		var dataset;
+			// Defining width and height variables 
+			var svg_width = 650;
+			var svg_height = 300;
+			var axis_gap_bar = 10;
+			var axis_gap_text = 10;
+
+			// Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", svg_width)
+						.attr("height", svg_height);
+			
+			// Function to create a bar chart 
+			function generateVis(){
+
+				// Setting up the scale for the x axis
+		        var xScale = d3.scaleLinear()
+						                   .domain([0, d3.max(dataset, function(d){return +d.Population})])
+						                   .range([0, svg_width]);
+
+				// Setting up the scale for the y axis 		                   	
+		        var yScale = d3.scaleBand()
+			            				.domain(dataset.map(function(d) { return d.Country; }))
+										.range([0, svg_height])
+		                                .padding(0.1);
+
+		               
+      		// Add rectangles
+				svg.selectAll("rect")
+				   .data(dataset)
+				   .enter()
+					   .append("rect")
+					   .attr("x", 0)
+					   .attr("y", function(d) {
+					   		return yScale(d.Country) ;
+					   })
+					   .attr("width", function(d) {
+                    return xScale(+d.Population);})
+                
+					   .attr("height", function(d) {
+					   		return yScale.bandwidth();
+					   })
+					   .attr("fill", "Blue");
+
+				// Add labels
+				svg.selectAll("text")
+				   .data(dataset)
+				   .enter()
+					   .append("text")
+					   .text(function(d) { return d.Country; })
+    				   .attr("x", 5)
+    				   .attr("y", 0)
+    				   .attr("dy", function(d) {
+    				   		return yScale(d.Country) + yScale.bandwidth()/2;
+    				   })
+                       .attr("text-anchor", "left")
+                       
+                       .style("fill", "white")
+                       .attr("font-size", "12px")
+                       .attr("font-family", "sans-serif");
+
+            }
+
+	    // Load the file data.csv and generate a visualisation based on it	
+		d3.csv("Top10WorldPopulations.csv")
+		  .then(function(data) {
+		      	  dataset = data;
+				  generateVis();
+		  });
+	</script>
+</body>
+</html

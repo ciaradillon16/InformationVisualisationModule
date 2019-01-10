@@ -1,0 +1,113 @@
+0<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Practical 4</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		
+		var dataset;
+
+		// Define nice margins
+		var margin = {top: 10, right: 10, bottom: 25, left: 100};
+
+
+		// Defining width and height variables 
+		//Width and height
+		var outer_width = 600;
+		var outer_height = 300;
+		var svg_width = outer_width - margin.left - margin.right;
+		var svg_height = outer_height - margin.top - margin.bottom;
+		var axis_gap_bar = 10;
+		var axis_gap_text = 10;
+
+		// Create SVG element
+		var svg = d3.select("body")
+					.append("svg")
+					.attr("width", svg_width + margin.left + margin.right)
+					.attr("height", svg_height + margin.top + margin.bottom)
+					.append("g")
+					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+			
+			// Function to create a bar chart 
+			function generateVis(){
+
+				// Setting up the scale for the x axis
+		        var xScale = d3.scaleLinear()
+						                   .domain([0, d3.max(dataset, function(d){return +d.Population})])
+						                   .range([0, svg_width]);
+
+				// Setting up the scale for the y axis 		                   	
+		        var yScale = d3.scaleBand()
+			            				.domain(dataset.map(function(d) { return d.Country; }))
+										.range([0, svg_height])
+		                                .padding(0.1);
+
+			 	// Create an x-axis connected to the x scale
+				var xAxis = d3.axisBottom()
+							  .scale(xScale)
+							  .ticks(2);
+
+				//Define Y axis
+				var yAxis = d3.axisLeft()
+								  .scale(yScale)
+								  
+							  
+				// Call the x-axis
+				svg.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(0," + svg_height + ")")
+					.call(xAxis);
+					
+				// Call the y axis
+				svg.append("g")
+					.attr("class", "axis")
+					.call(yAxis);
+
+			               
+	      		// Add rectangles
+					svg.selectAll("rect")
+					   .data(dataset)
+					   .enter()
+						   .append("rect")
+						   .attr("x", 0)
+						   .attr("y", function(d) {
+						   		return yScale(d.Country) ;
+						   })
+						   .attr("width", function(d) {
+	                    return xScale(+d.Population);})
+	                
+						   .attr("height", function(d) {
+						   		return yScale.bandwidth();
+						   })
+						   .attr("fill", "Blue");
+
+					// Add labels
+					svg.selectAll("text")
+					   .data(dataset)
+					   .enter()
+						   .append("text")
+						   .text(function(d) { return d.Country; })
+	    				   .attr("x", 5)
+	    				   .attr("y", 0)
+	    				   .attr("dy", function(d) {
+	    				   		return yScale(d.Country) + yScale.bandwidth()/2;
+	    				   })
+	                       .attr("text-anchor", "left")
+	                       .style("fill", "white")
+	                       .attr("font-size", "12px")
+	                       .attr("font-family", "sans-serif");
+
+            }
+
+	    // Load the file data.csv and generate a visualisation based on it	
+		d3.csv("Top10WorldPopulations.csv")
+		  .then(function(data) {
+		      	  dataset = data;
+				  generateVis();
+		  });
+	</script>
+</body>
+</html

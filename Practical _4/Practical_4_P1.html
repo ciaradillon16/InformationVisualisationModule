@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Practical 4</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		
+		// Part 1 
+		var dataset = [4, 11, 22, 17,  2, 25, 16]
+
+		// Part 2 
+		d3.select("body")
+			.append("svg")
+			.attr("width", 900)
+			.attr("height", 200);
+
+		d3.select("svg")
+			.selectAll("rect")
+			.data(dataset)
+			.enter()
+				.append("rect")
+				.attr("x", function(d, i) {
+					return (i * 70) + 40;
+				})
+				.attr("y", 50)
+				.attr("height", function(d){return +d })
+				.attr("width", function(d){return +d });
+
+		// Part 3 
+		var scale = 5;
+		d3.select("body")
+			.append("svg")
+			.attr("id", "partThree")
+			.attr("width", 900)
+			.attr("height", 200);
+
+		d3.select("#partThree")
+			.selectAll("circle")
+			.data(dataset)
+			.enter()
+				.append("rect")
+				.attr("x", function(d, i) {
+					return (i * 70) + 40;
+				})
+				.attr("y", 50)
+				.attr("height", function(d){return Math.sqrt(d)*scale })
+				.attr("width", function(d){return Math.sqrt(d)*scale });
+
+
+		// Part 4
+		d3.select("body")
+			.append("svg")
+			.attr("id", "partFour")
+			.attr("width", 900)
+			.attr("height", 200);
+
+		d3.select("#partFour")
+			.selectAll("circles")
+			.data(dataset)
+			.enter()
+				.append("rect")
+				.attr("x", function(d, i) {
+					return (i *  70) +   40;
+				})
+				.attr("y", 50)
+				.attr("height", function(d){return Math.sqrt(d) * scale})
+				.attr("width", function(d){return Math.sqrt(d) * scale})
+				.style("fill", function(d) { if (d > 15) {
+					return "green"
+				} else {
+					return "red"
+				}});
+
+		// Part 5
+		var randomArray = [];
+		for (i=0; i<=dataset.length; i++) {
+			var x = Math.floor((Math.random() * 25) + 1);
+			randomArray.push(x);
+			console.log(randomArray[i]); 
+		}
+
+		d3.select("body")
+			.append("svg")
+			.attr("id", "partFive")
+			.attr("width", 900)
+			.attr("height", 200);
+
+		d3.select("#partFive")
+			.selectAll("circle")
+			.data(randomArray)
+			.enter()
+				.append("rect")
+				.attr("x", function(d, i) {
+					return (i * 70) + 40;
+				})
+				.attr("y", 50)
+				.attr("height", function(d){return Math.sqrt(d) * scale})
+				.attr("width", function(d){return Math.sqrt(d) * scale})
+				.style("fill", function(d) { 
+					if (d > 15) {
+						return "green"
+					} else {
+				 		return "red"
+					}});
+	</script>
+</body>
+</html

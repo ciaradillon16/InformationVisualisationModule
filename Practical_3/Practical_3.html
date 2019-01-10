@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Practical 3</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+	<h1 style="font-family: 'Helvetica';">Practical Three</h1>
+	<h2 style="font-family: 'Helvetica';">Part 5</h2>
+
+		<!--Part  5: Q1-->
+		<svg width="250" height="250" style='background: #fffafa; margin: 5px;'>
+			<script>
+
+			for (var i=20; i <=250; i+=25) {
+
+				d3.select("svg").append("circle")
+					.attr("cx", i)
+					.attr("cy", i)
+					.attr("r", 20)
+					.style("fill", "#228b22")
+					.style("opacity", 0.8)
+					.style("stroke", "black")
+					.style("stroke-width", 0.5);
+			}
+			</script>
+		</svg>
+
+		<!--Part  5: Q2-->
+		<svg id="partTwo" width="250" height="250" style='background: #fffafa; display: block; margin: 5px;'>
+			<script>
+
+			for (var i=20; i <=250; i+=25) {
+					circle = d3.select("#partTwo").append("circle")
+						.attr("cx", i)
+						.attr("cy", i)
+						.attr("r", 20)
+						.style("opacity", 0.7)
+						.style("stroke", "black")
+						.style("stroke-width", 0.5);
+
+						if (i % 2 === 0) {
+							circle.style("fill", "black");
+						}
+						else {
+							circle.style("fill", "red");
+						}
+				}
+		
+			</script>
+		</svg>
+
+	<h2 style="font-family: 'Helvetica';">Part 6</h2>
+
+		<!--Part  6: EU Flag-->
+		<svg id="europe" width="300" height="200" style="background: #1828A3;">
+			<script>
+			
+
+			for (var i=0; i <= 2*Math.PI; i += Math.PI/6) {
+
+			var starX = 140 + 70 * Math.cos(i);
+			var starY = 90 + 70 * Math.sin(i);
+
+			d3.select("#europe").append("polygon")
+				.attr("points", "0,0.9511, 1.0,0.95111, 1.309,0, 1.618,0.9511, 2.618,0.9511, 1.809,1.5388, 2.118,2.4899, 1.309,1.9021, 0.5,2.4899, 0.809,1.5388")
+				.attr("transform", "translate("  + starX + "," + starY +"), scale(7)")
+				.style("fill", "gold");
+
+       }
+
+			</script>
+
+
+
+
+
+
+
+
+
+		</svg>
+
+</body>
+</html>
